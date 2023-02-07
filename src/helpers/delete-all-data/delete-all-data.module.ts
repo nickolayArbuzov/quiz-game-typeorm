@@ -9,11 +9,10 @@ import { AllDataController } from './delete-all-data.controller';
 import { AllDataService } from './delete-all-data.service';
 import { BloggerUserModule } from '../../features/blogger/blogger-user/blogger-user.module';
 import { SAQuizModule } from '../../features/sa/sa-quiz/sa-quiz.module';
-import { DatabaseModule } from '../../outerservices/database/database.module';
 
 @Module({
   controllers: [AllDataController],
-  imports: [DatabaseModule, BlogsModule, PostsModule, SAUsersModule, CommentsModule, DevicesModule, LikesModule, BloggerUserModule, SAQuizModule],
+  imports: [BlogsModule, PostsModule, SAUsersModule, CommentsModule, DevicesModule, LikesModule, BloggerUserModule, SAQuizModule],
   providers: [
     AllDataService,
   ],

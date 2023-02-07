@@ -1,14 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { InjectDataSource } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { QuestionEntity } from '../../features/sa/sa-quiz/domain/entity/question.entity';
 import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
 export class AllDataService {
   constructor(
-    @Inject('DATA_SOURCE')
-    private readonly db: DataSource,
-    @Inject('QUESTION_REPOSITORY')
+    @InjectDataSource() private readonly db: DataSource,
+    @InjectRepository(QuestionEntity)
     private questionRepository: Repository<QuestionEntity>,
   ) {}
 

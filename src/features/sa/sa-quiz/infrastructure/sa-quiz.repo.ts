@@ -1,4 +1,5 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { QueryAnswersDto } from '../../../../helpers/constants/commonDTO/query.dto';
 import { QuestionEntity } from '../domain/entity/question.entity';
@@ -7,7 +8,7 @@ import { CreateQuestionDto, PublishDto, UpdateQuestionDto } from '../dto/sa-quiz
 @Injectable()
 export class SAquizRepo {
   constructor(
-    @Inject('QUESTION_REPOSITORY')
+    @InjectRepository(QuestionEntity)
     private questionRepository: Repository<QuestionEntity>,
   ) {}
 

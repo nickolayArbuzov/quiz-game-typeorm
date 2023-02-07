@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { QueryBlogDto } from '../../../helpers/constants/commonDTO/query.dto';
@@ -8,8 +8,7 @@ import { UpdateCommentDto } from '../dto/comment.dto';
 @Injectable()
 export class CommentsSQL {
   constructor(
-    @Inject('DATA_SOURCE')
-    private readonly db: DataSource,
+    @InjectDataSource() private readonly db: DataSource
   ) {}
 
   async findAllCommentByPostId(postId: string, query: QueryBlogDto){

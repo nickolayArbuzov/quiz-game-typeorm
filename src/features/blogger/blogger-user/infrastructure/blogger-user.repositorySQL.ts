@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { QueryUserDto } from '../../../../helpers/constants/commonDTO/query.dto';
@@ -7,8 +7,7 @@ import { BanUserBlogDto } from '../../../../shared/dto/ban.dto';
 @Injectable()
 export class BloggerUserSQL {
   constructor(
-    @Inject('DATA_SOURCE')
-    private readonly db: DataSource,
+    @InjectDataSource() private readonly db: DataSource
   ) {}
 
   async banUserById(userId: string, banUserBlogDto: BanUserBlogDto){

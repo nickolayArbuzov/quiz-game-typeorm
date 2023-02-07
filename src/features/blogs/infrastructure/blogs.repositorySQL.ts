@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { QueryBlogDto } from '../../../helpers/constants/commonDTO/query.dto';
@@ -6,8 +6,7 @@ import { QueryBlogDto } from '../../../helpers/constants/commonDTO/query.dto';
 @Injectable()
 export class BlogsSQL {
   constructor(
-    @Inject('DATA_SOURCE')
-    private readonly db: DataSource,
+    @InjectDataSource() private readonly db: DataSource
   ) {}
 
   async findAllBlogs(query: QueryBlogDto){

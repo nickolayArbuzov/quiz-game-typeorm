@@ -3,16 +3,16 @@ import { QuestionEntity } from '../../features/sa/sa-quiz/domain/entity/question
 import { DataSource } from 'typeorm';
 
 export const databaseProviders = [
-  {
+  /*{
     provide: 'DATA_SOURCE',
     useFactory: async (configService: ConfigService) => {
       const dataSource = new DataSource({
         type: 'postgres',
-        host: process.env.POSTGRES_HOST,
-        port: Number(process.env.POSTGRES_PORT),
-        username: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASS,
-        database: process.env.POSTGRES_DB,
+        host: configService.get('POSTGRES_HOST'),
+        port: +configService.get('POSTGRES_PORT'),
+        username: configService.get('POSTGRES_USER'),
+        password: configService.get('POSTGRES_PASS'),
+        database: configService.get('POSTGRES_DB'),
         entities: [QuestionEntity],
         synchronize: true,
         ssl: {rejectUnauthorized: false},
@@ -25,5 +25,5 @@ export const databaseProviders = [
       });
       return dataSource.initialize();
     },
-  },
+  },*/
 ];

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { Like } from '../domain/entitites/like';
@@ -6,8 +6,7 @@ import { Like } from '../domain/entitites/like';
 @Injectable()
 export class LikesSQL {
   constructor(
-    @Inject('DATA_SOURCE')
-    private readonly db: DataSource,
+    @InjectDataSource() private readonly db: DataSource
   ) {}
 
   async findOne(userId: string, postId: string | null, commentId: string | null){
