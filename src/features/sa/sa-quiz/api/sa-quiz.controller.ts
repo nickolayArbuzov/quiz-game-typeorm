@@ -6,7 +6,7 @@ import { PublishQuestionByIdCommand } from '../application/use-cases/PublishQues
 import { UpdateQuestionByIdCommand } from '../application/use-cases/UpdateQuestionById';
 import { FindAllQuestionsQuery } from '../application/use-cases/FindAllQuestions';
 import { CreateOneQuestionCommand } from '../application/use-cases/CreateOneQuestion';
-import { DeleteQuestionByIdCommand } from '../application/use-cases/DeleteQuestionbyId';
+import { DeleteQuestionByIdCommand } from '../application/use-cases/DeleteQuestionById';
 import { CreateQuestionDto, PublishDto, UpdateQuestionDto } from '../dto/sa-quiz.dto';
 
 @UseGuards(BasicAuthGuard)
