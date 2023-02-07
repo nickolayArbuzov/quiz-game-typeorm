@@ -1,8 +1,6 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { QuestionEntity } from '../../features/sa/sa-quiz/domain/entity/question.entity';
 import { DataSource } from 'typeorm';
-import * as config from '../../config/database'
-
 
 export const databaseProviders = [
   {
@@ -17,7 +15,13 @@ export const databaseProviders = [
         database: process.env.POSTGRES_DB,
         entities: [QuestionEntity],
         synchronize: true,
-        ssl: {rejectUnauthorized: false}
+        ssl: {rejectUnauthorized: false},
+        poolSize: 5,
+        extra: {
+          connectionLimit: 5,
+          max: 5,
+          connectionTimeoutMillis: 1000,
+        },
       });
       return dataSource.initialize();
     },

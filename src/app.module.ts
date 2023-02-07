@@ -26,7 +26,7 @@ import { PairGameQuizModule } from './features/pair-game-quiz/pair-game-quiz.mod
   ],
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
-    TypeOrmModule.forRootAsync({inject: [ConfigService], useFactory: (configService: ConfigService) => {
+    /*TypeOrmModule.forRootAsync({inject: [ConfigService], useFactory: (configService: ConfigService) => {
       return {
         type: 'postgres',
         host: configService.get('POSTGRES_HOST'),
@@ -44,7 +44,8 @@ import { PairGameQuizModule } from './features/pair-game-quiz/pair-game-quiz.mod
         },
         entities: [QuestionEntity]
       }
-    }}),
+    }}),*/
+    DatabaseModule,
     BlogsModule,
     BloggerBlogModule,
     BloggerUserModule,

@@ -6,7 +6,8 @@ import { Like } from '../domain/entitites/like';
 @Injectable()
 export class LikesSQL {
   constructor(
-    @InjectDataSource() private readonly db: DataSource
+    @Inject('DATA_SOURCE')
+    private readonly db: DataSource,
   ) {}
 
   async findOne(userId: string, postId: string | null, commentId: string | null){

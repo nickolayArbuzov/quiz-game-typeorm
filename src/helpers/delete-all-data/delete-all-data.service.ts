@@ -6,7 +6,8 @@ import { DataSource, Repository } from 'typeorm';
 @Injectable()
 export class AllDataService {
   constructor(
-    @InjectDataSource() private readonly db: DataSource,
+    @Inject('DATA_SOURCE')
+    private readonly db: DataSource,
     @Inject('QUESTION_REPOSITORY')
     private questionRepository: Repository<QuestionEntity>,
   ) {}

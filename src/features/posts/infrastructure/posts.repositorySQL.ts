@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { QueryBlogDto } from '../../../helpers/constants/commonDTO/query.dto';
@@ -8,7 +8,8 @@ import { UpdatePostDefaultDto } from '../dto/post.dto';
 @Injectable()
 export class PostsSQL {
   constructor(
-    @InjectDataSource() private readonly db: DataSource
+    @Inject('DATA_SOURCE')
+    private readonly db: DataSource,
   ) {}
 
   async findAllPosts(query: QueryBlogDto, id: string){

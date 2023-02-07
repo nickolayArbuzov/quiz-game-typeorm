@@ -6,7 +6,8 @@ import { Device } from '../domain/entitites/device';
 @Injectable()
 export class DevicesSQL {
   constructor(
-    @InjectDataSource() private readonly db: DataSource
+    @Inject('DATA_SOURCE')
+    private readonly db: DataSource,
   ) {}
 
   async findAllDevicesByCurrentUserId(userId: string){
