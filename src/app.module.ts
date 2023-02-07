@@ -45,7 +45,6 @@ import { PairGameQuizModule } from './features/pair-game-quiz/pair-game-quiz.mod
         entities: [QuestionEntity]
       }
     }}),
-    DatabaseModule,
     BlogsModule,
     BloggerBlogModule,
     BloggerUserModule,
