@@ -1,4 +1,4 @@
-import {Controller, Delete, HttpCode, UseGuards} from '@nestjs/common';
+import {Controller, Delete, HttpCode} from '@nestjs/common';
 import {AllDataService} from "./delete-all-data.service";
 
 @Controller('testing')

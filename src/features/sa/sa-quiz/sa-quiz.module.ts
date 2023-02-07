@@ -7,7 +7,7 @@ import { UpdateQuestionByIdUseCase } from './application/use-cases/UpdateQuestio
 import { PublishQuestionByIdUseCase } from './application/use-cases/PublishQuestionById';
 import { FindAllQuestionsUseCase } from './application/use-cases/FindAllQuestions';
 import { CreateOneQuestionUseCase } from './application/use-cases/CreateOneQuestion';
-import { DeleteQuestionByIdUseCase } from './application/use-cases/DeleteQuestionbyId';
+import { DeleteQuestionByIdUseCase } from './application/use-cases/DeleteQuestionById';
 import { questionProviders } from './providers/sa-quiz.providers';
 
 const commands = [CreateOneQuestionUseCase, DeleteQuestionByIdUseCase, UpdateQuestionByIdUseCase, PublishQuestionByIdUseCase]
