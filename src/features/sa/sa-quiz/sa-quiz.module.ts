@@ -6,8 +6,8 @@ import { SAquizRepo } from './infrastructure/sa-quiz.repo';
 import { UpdateQuestionByIdUseCase } from './application/use-cases/UpdateQuestionById';
 import { PublishQuestionByIdUseCase } from './application/use-cases/PublishQuestionById';
 import { FindAllQuestionsUseCase } from './application/use-cases/FindAllQuestions';
-import { DeleteQuestionByIdUseCase } from './application/use-cases/DeleteQuestionbyId';
 import { CreateOneQuestionUseCase } from './application/use-cases/CreateOneQuestion';
+import { DeleteQuestionByIdUseCase } from './application/use-cases/DeleteQuestionbyId';
 import { questionProviders } from './providers/sa-quiz.providers';
 
 const commands = [CreateOneQuestionUseCase, DeleteQuestionByIdUseCase, UpdateQuestionByIdUseCase, PublishQuestionByIdUseCase]
