@@ -1,8 +1,10 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { CreateQuestionDto, PublishDto, UpdateQuestionDto } from '../../dto/sa-quiz.dto';
 
 @Entity('questions')
 export class QuestionEntity {
-  @PrimaryColumn('uuid')
+
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'text', collation: 'C' })
@@ -15,8 +17,29 @@ export class QuestionEntity {
   published: boolean;
 
   @Column('timestamp with time zone')
-  createdAt: Date;
+  createdAt: string;
 
   @Column('timestamp with time zone')
-  updatedAt: Date;
+  updatedAt: string;
+
+  create(createQuestionDto: CreateQuestionDto) {
+    this.body = createQuestionDto.body
+    this.correctAnswers = createQuestionDto.correctAnswers
+    this.published = false
+    this.createdAt = new Date().toISOString()
+    this.updatedAt = new Date().toISOString()
+    return this
+  }
+
+  update(updateData: UpdateQuestionDto | PublishDto) {
+    if(updateData instanceof UpdateQuestionDto){
+      this.body = updateData.body
+      this.correctAnswers = updateData.correctAnswers
+    }
+    if(updateData instanceof PublishDto){
+      this.published = updateData.published
+    }
+    this.updatedAt = new Date().toISOString()
+    return this
+  }
 }

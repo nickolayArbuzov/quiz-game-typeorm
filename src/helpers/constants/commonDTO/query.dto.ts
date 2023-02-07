@@ -2,7 +2,7 @@ export class QueryBlogDto {
     readonly pageNumber: string;
     readonly pageSize: string;
     readonly sortBy: string;
-    readonly sortDirection: "desc" | "asc";
+    readonly sortDirection: "desc" | "asc" ;
     readonly searchNameTerm?: string;
 }
 

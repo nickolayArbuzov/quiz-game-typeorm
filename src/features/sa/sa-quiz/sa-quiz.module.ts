@@ -8,6 +8,7 @@ import { PublishQuestionByIdUseCase } from './application/use-cases/PublishQuest
 import { FindAllQuestionsUseCase } from './application/use-cases/FindAllQuestions';
 import { DeleteQuestionByIdUseCase } from './application/use-cases/DeleteQuestionbyId';
 import { CreateOneQuestionUseCase } from './application/use-cases/CreateOneQuestion';
+import { questionProviders } from './providers/sa-quiz.providers';
 
 const commands = [CreateOneQuestionUseCase, DeleteQuestionByIdUseCase, UpdateQuestionByIdUseCase, PublishQuestionByIdUseCase]
 const queries = [FindAllQuestionsUseCase]
@@ -17,11 +18,12 @@ const queries = [FindAllQuestionsUseCase]
   imports: [DatabaseModule, CqrsModule],
   providers: [
     SAquizRepo,
+    ...questionProviders,
     ...commands,
     ...queries,
   ],
   exports: [
-
+    questionProviders.find(q => q.provide==='QUESTION_REPOSITORY'),
   ]
 
 })

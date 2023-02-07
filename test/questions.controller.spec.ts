@@ -45,14 +45,19 @@ describe('AppController', () => {
 
   describe('sa-user-controller', () => {
 
-    const question = {
+    const question1 = {
       body: 'how are you?',
-      answers: ['thanks, fine', 'it norm, how are you?']
+      correctAnswers: ['thanks, fine', 'it norm, how are you?']
+    }
+
+    const question2 = {
+      body: '2-how are you?',
+      correctAnswers: ['2', 'thanks, fine', 'it norm, how are you?']
     }
 
     const updateQuestion = {
       body: 'hi, how are you?',
-      answers: ['its ok', 'it norm, how are you?']
+      correctAnswers: ['its ok', 'it norm, how are you?']
     }
 
     let questionId = ''
@@ -65,31 +70,21 @@ describe('AppController', () => {
     it('should create new question', async () => {
       const response = await request(server).post('/sa/quiz/questions')
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
-        .send(question)
+        .send(question1)
         .expect(201)
-      await request(server).post('/sa/quiz/questions').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(question)
+      await request(server).post('/sa/quiz/questions').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(question2)
       await request(server).post('/sa/quiz/questions').set('Authorization', 'Basic YWRtaW46cXdlcnR5').expect(400)
 
       questionId = response.body.id
       
       expect(response.body).toStrictEqual({
         "id": expect.any(String),
-        "body": question.body,
-        "correctAnswers": question.answers,
+        "body": question1.body,
+        "correctAnswers": question1.correctAnswers,
         "published": false,
         "createdAt": expect.any(String),
         "updatedAt": expect.any(String),
       });
-
-    });
-
-    it('should return all questions', async () => {
-      const response = await request(server).get('/sa/quiz/questions')
-        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
-        .send(constants.createUser1)
-        .expect(201);
-
-      expect(response.body.items.length).toBe(2);
 
     });
 
@@ -111,6 +106,13 @@ describe('AppController', () => {
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .send(updateQuestion)
         .expect(204);
+
+      const response = await request(server).get('/sa/quiz/questions')
+        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+        .send(constants.createUser1)
+
+      expect(response.body.items.find(i => i.id === questionId).body).toStrictEqual(updateQuestion.body);
+      expect(response.body.items.find(i => i.id === questionId).correctAnswers).toStrictEqual(updateQuestion.correctAnswers);
     });
 
     it('should publish one question', async () => {
@@ -131,6 +133,106 @@ describe('AppController', () => {
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .send({published: true})
         .expect(204);
+
+      const response = await request(server).get('/sa/quiz/questions')
+        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+        .send(constants.createUser1)
+
+      expect(response.body.items.find(i => i.id === questionId).body).toStrictEqual(updateQuestion.body);
+    });
+
+    it('should return all questions using query-params', async () => {
+      const response = await request(server).get('/sa/quiz/questions')
+        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+        .send(constants.createUser1)
+        .expect(200);
+
+      expect(response.body).toStrictEqual({
+        pagesCount: 1,
+        page: 1,
+        pageSize: 10,
+        totalCount: 2,
+        items: [
+          {
+            body: "2-how are you?",
+            correctAnswers: ["2", "thanks, fine", "it norm, how are you?"],
+            createdAt: expect.any(String),
+            id: expect.any(String),
+            published: false,
+            updatedAt: expect.any(String),
+          },
+          {
+            body: updateQuestion.body,
+            correctAnswers: updateQuestion.correctAnswers,
+            createdAt: expect.any(String),
+            id: expect.any(String),
+            published: true,
+            updatedAt: expect.any(String),
+          },
+        ]
+      })
+
+      expect(response.body.items.length).toBe(2);
+
+      const responseWithQuerySort = await request(server).get('/sa/quiz/questions?sortDirection=asc')
+        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+        .send(constants.createUser1)
+        .expect(200);
+      
+      expect(responseWithQuerySort.body).toStrictEqual({
+        pagesCount: 1,
+        page: 1,
+        pageSize: 10,
+        totalCount: 2,
+        items: [
+          {
+            body: updateQuestion.body,
+            correctAnswers: updateQuestion.correctAnswers,
+            createdAt: expect.any(String),
+            id: expect.any(String),
+            published: true,
+            updatedAt: expect.any(String),
+          },
+          {
+            body: "2-how are you?",
+            correctAnswers: ["2", "thanks, fine", "it norm, how are you?"],
+            createdAt: expect.any(String),
+            id: expect.any(String),
+            published: false,
+            updatedAt: expect.any(String),
+          },
+        ]
+      })
+
+      const responseWithQueryTruePublish = await request(server).get('/sa/quiz/questions?publishedStatus=published')
+        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+        .send(constants.createUser1)
+        .expect(200);
+      
+      expect(responseWithQueryTruePublish.body).toStrictEqual({
+        pagesCount: 1,
+        page: 1,
+        pageSize: 10,
+        totalCount: 1,
+        items: [
+          {
+            body: updateQuestion.body,
+            correctAnswers: updateQuestion.correctAnswers,
+            createdAt: expect.any(String),
+            id: expect.any(String),
+            published: true,
+            updatedAt: expect.any(String),
+          },
+        ]
+      })
+
+      const responseWithQueryFalsePublish = await request(server).get('/sa/quiz/questions?publishedStatus=notPublished')
+        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+        .send(constants.createUser1)
+        .expect(200);
+      
+      expect(responseWithQueryFalsePublish.body.items[0].published).toStrictEqual(false)
+
     });
 
     it('should delete one question', async () => {
@@ -144,6 +246,12 @@ describe('AppController', () => {
       await request(server).delete(`/sa/quiz/questions/${questionId}`)
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .expect(204);
+
+      const response = await request(server).get('/sa/quiz/questions')
+        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+        .send(constants.createUser1)
+      
+      expect(response.body.items.length).toBe(1)
     });
 
   });

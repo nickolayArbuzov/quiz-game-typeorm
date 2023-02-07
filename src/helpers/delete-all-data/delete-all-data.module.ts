@@ -8,10 +8,11 @@ import { LikesModule } from '../../features/likes/likes.module';
 import { AllDataController } from './delete-all-data.controller';
 import { AllDataService } from './delete-all-data.service';
 import { BloggerUserModule } from '../../features/blogger/blogger-user/blogger-user.module';
+import { SAQuizModule } from '../../features/sa/sa-quiz/sa-quiz.module';
 
 @Module({
   controllers: [AllDataController],
-  imports: [BlogsModule, PostsModule, SAUsersModule, CommentsModule, DevicesModule, LikesModule, BloggerUserModule],
+  imports: [BlogsModule, PostsModule, SAUsersModule, CommentsModule, DevicesModule, LikesModule, BloggerUserModule, SAQuizModule],
   providers: [
     AllDataService,
   ],
