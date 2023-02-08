@@ -27,6 +27,7 @@ export class QuestionEntity {
     this.correctAnswers = createQuestionDto.correctAnswers
     this.published = false
     this.createdAt = new Date().toISOString()
+    this.updatedAt = null
     return this
   }
 
