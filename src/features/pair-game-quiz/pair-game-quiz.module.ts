@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
-import { DatabaseModule } from '../../outerservices/database/database.module';
 import { PairGameQuizUsersController } from './api/users.controller';
 import { PairGameQuizPairsController } from './api/pair.controller';
 import { ConnectCurrentUserUseCase } from './application/use-cases/ConnectCurrentUser';
@@ -18,7 +17,7 @@ const queries = [FindOneGameByIdUseCase, GetMyCurrentGameUseCase, GetMyGamesUseC
 
 @Module({
   controllers: [PairGameQuizPairsController, PairGameQuizUsersController],
-  imports: [DatabaseModule, CqrsModule],
+  imports: [CqrsModule],
   providers: [
     PairGameQuizRepo,
     JwtService,

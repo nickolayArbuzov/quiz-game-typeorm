@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
-import { DatabaseModule } from '../../outerservices/database/database.module';
 import { LikesModule } from '../likes/likes.module';
 import { PostsModule } from '../posts/posts.module';
 import { BlogsController } from './api/blogs.controller';
@@ -18,7 +17,7 @@ const queries = [FindAllBlogsUseCase, FindPostsByBlogIdUseCase, FindOneBlogByIdU
 
 @Module({
   controllers: [BlogsController],
-  imports: [DatabaseModule, PostsModule, LikesModule, CqrsModule],
+  imports: [PostsModule, LikesModule, CqrsModule],
   providers: [
     BlogsService,
     BlogsRepo,

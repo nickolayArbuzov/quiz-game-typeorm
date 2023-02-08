@@ -1,7 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
-import { DatabaseModule } from '../../../outerservices/database/database.module';
 import { LikesModule } from '../../likes/likes.module';
 import { PostsModule } from '../../posts/posts.module';
 import { BloggerUserController } from './api/blogger-user.controller';
@@ -18,7 +17,7 @@ const queries = [FindAllBannedUsersByBlogIdUseCase]
 
 @Module({
   controllers: [BloggerUserController],
-  imports: [DatabaseModule, forwardRef(() => PostsModule), LikesModule, CqrsModule, SAUsersModule, BloggerBlogModule],
+  imports: [forwardRef(() => PostsModule), LikesModule, CqrsModule, SAUsersModule, BloggerBlogModule],
   providers: [
     BloggerUserRepo,
     BloggerUserSQL,

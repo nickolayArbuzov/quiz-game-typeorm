@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { CommentsService } from './application/comments.service';
 import { CommentsController } from './api/comments.controller';
 import { CommentsRepo } from './infrastructure/comments.repo';
-import { DatabaseModule } from '../../outerservices/database/database.module';
 import { LikesModule } from '../likes/likes.module';
 import { JwtService } from '@nestjs/jwt';
 import { LikeUseCase } from './application/use-cases/Like';
@@ -18,7 +17,7 @@ const queries = [FindOneCommentByIdUseCase]
 
 @Module({
   controllers: [CommentsController],
-  imports: [DatabaseModule, LikesModule, CqrsModule, SAUsersModule],
+  imports: [LikesModule, CqrsModule, SAUsersModule],
   providers: [
     CommentsService,
     CommentsRepo,

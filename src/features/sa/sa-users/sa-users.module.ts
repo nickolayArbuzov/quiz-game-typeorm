@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { DatabaseModule } from '../../../outerservices/database/database.module';
 import { UsersController } from './api/users.controller';
 import { BanOneUserByIdUseCase } from './application/use-cases/BanOneUserById';
 import { CreateOneUserUseCase } from './application/use-cases/CreateOneUser';
@@ -17,7 +16,7 @@ const queries = [FindAllUsersUseCase]
 
 @Module({
   controllers: [UsersController],
-  imports: [DatabaseModule, CqrsModule, LikesModule],
+  imports: [CqrsModule, LikesModule],
   providers: [
     UsersService,
     UsersRepo,

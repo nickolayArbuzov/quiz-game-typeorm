@@ -2,7 +2,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DatabaseModule } from './outerservices/database/database.module';
 import { AllDataModule } from './helpers/delete-all-data/delete-all-data.module';
 import { BlogsModule } from './features/blogs/blogs.module';
 import { CommentsModule } from './features/comments/comments.module';
@@ -45,7 +44,6 @@ import { PairGameQuizModule } from './features/pair-game-quiz/pair-game-quiz.mod
         entities: [QuestionEntity]
       }
     }}),
-    DatabaseModule,
     BlogsModule,
     BloggerBlogModule,
     BloggerUserModule,

@@ -1,7 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
-import { DatabaseModule } from '../../outerservices/database/database.module';
 import { BlogsModule } from '../blogs/blogs.module';
 import { CommentsModule } from '../comments/comments.module';
 import { LikesModule } from '../likes/likes.module';
@@ -21,7 +20,7 @@ const queries = [FindCommentsByPostIdCase, FindAllPostsUseCase, FindOnePostByIdU
 
 @Module({
   controllers: [PostsController],
-  imports: [DatabaseModule, CommentsModule, LikesModule, CqrsModule, forwardRef(() => BlogsModule), BloggerUserModule],
+  imports: [CommentsModule, LikesModule, CqrsModule, forwardRef(() => BlogsModule), BloggerUserModule],
   providers: [
     PostsService,
     PostsRepo,

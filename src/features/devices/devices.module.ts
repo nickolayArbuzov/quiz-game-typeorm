@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { JWT } from '../../helpers/helpers/jwt';
-import { DatabaseModule } from '../../outerservices/database/database.module';
 import { DevicesController } from './api/devices.controller';
 import { DevicesService } from './application/devices.service';
 import { DevicesRepo } from './infrastructure/devices.repo';
@@ -16,7 +15,7 @@ const queries = [FindAllDevicesByCurrentUserIdUseCase]
 
 @Module({
   controllers: [DevicesController],
-  imports: [DatabaseModule, JwtModule, CqrsModule],
+  imports: [JwtModule, CqrsModule],
   providers: [
     DevicesService,
     DevicesRepo,
