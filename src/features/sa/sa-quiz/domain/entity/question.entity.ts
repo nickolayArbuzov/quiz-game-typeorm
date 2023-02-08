@@ -19,7 +19,7 @@ export class QuestionEntity {
   @Column('timestamp with time zone')
   createdAt: string;
 
-  @Column('timestamp with time zone')
+  @Column({nullable: true, type: 'timestamp with time zone'})
   updatedAt: string;
 
   create(createQuestionDto: CreateQuestionDto) {
@@ -27,7 +27,6 @@ export class QuestionEntity {
     this.correctAnswers = createQuestionDto.correctAnswers
     this.published = false
     this.createdAt = new Date().toISOString()
-    this.updatedAt = new Date().toISOString()
     return this
   }
 
