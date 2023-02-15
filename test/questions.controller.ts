@@ -83,7 +83,7 @@ describe('AppController', () => {
         "correctAnswers": question1.correctAnswers,
         "published": false,
         "createdAt": expect.any(String),
-        "updatedAt": expect.any(String),
+        "updatedAt": null,
       });
 
     });
@@ -159,7 +159,7 @@ describe('AppController', () => {
             createdAt: expect.any(String),
             id: expect.any(String),
             published: false,
-            updatedAt: expect.any(String),
+            updatedAt: null,
           },
           {
             body: updateQuestion.body,
@@ -199,7 +199,7 @@ describe('AppController', () => {
             createdAt: expect.any(String),
             id: expect.any(String),
             published: false,
-            updatedAt: expect.any(String),
+            updatedAt: null,
           },
         ]
       })

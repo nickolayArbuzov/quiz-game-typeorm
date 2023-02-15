@@ -15,7 +15,7 @@ export class BloggerUserSQL {
       const position = await this.db.query(
         `
           select * 
-          from "bloggerUser"
+          from "blogger-users"
           where "blogId" = $1 and "bannedUserId" = $2
         `,
         [banUserBlogDto.blogId, userId]
@@ -26,7 +26,7 @@ export class BloggerUserSQL {
         const date = new Date()
         return await this.db.query(
           `
-            insert into "bloggerUser"
+            insert into "blogger-users"
             ("blogId", "bannedUserId", "banDate", "banReason")
             values ($1, $2, $3, $4)
           `, 
@@ -36,7 +36,7 @@ export class BloggerUserSQL {
     } else {
       return await this.db.query(
         `
-          delete from "bloggerUser"
+          delete from "blogger-users"
           where "blogId" = $1 and "bannedUserId" = $2
         `,
         [banUserBlogDto.blogId, userId]
@@ -48,7 +48,7 @@ export class BloggerUserSQL {
     const bannedUsers = await this.db.query(
       `
         select "bannedUserId", "banDate", "banReason" 
-        from "bloggerUser"
+        from "blogger-users"
         where "blogId" = $1
       `,
       [blogId]
@@ -102,7 +102,7 @@ export class BloggerUserSQL {
     const bannedPosition = await this.db.query(
       `
         select *
-        from "bloggerUser"
+        from "blogger-users"
         where "blogId" = $1 and "bannedUserId" = $2
       `,
       [blogId, userId]

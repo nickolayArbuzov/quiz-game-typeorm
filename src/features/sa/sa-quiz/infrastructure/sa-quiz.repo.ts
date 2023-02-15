@@ -1,13 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { QueryAnswersDto } from '../../../../helpers/constants/commonDTO/query.dto';
-import { QuestionEntity } from '../domain/entity/question.entity';
+import { QuestionEntity } from '../domain/entities/question.entity';
 import { CreateQuestionDto, PublishDto, UpdateQuestionDto } from '../dto/sa-quiz.dto';
 
 @Injectable()
 export class SAquizRepo {
   constructor(
+    @InjectDataSource() private readonly db: DataSource,
     @InjectRepository(QuestionEntity)
     private questionRepository: Repository<QuestionEntity>,
   ) {}

@@ -8,7 +8,7 @@ import { FindAllQuestionsUseCase } from './application/use-cases/FindAllQuestion
 import { CreateOneQuestionUseCase } from './application/use-cases/CreateOneQuestion';
 import { DeleteQuestionByIdUseCase } from './application/use-cases/DeleteQuestionById';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { QuestionEntity } from './domain/entity/question.entity';
+import { QuestionEntity } from './domain/entities/question.entity';
 
 const commands = [CreateOneQuestionUseCase, DeleteQuestionByIdUseCase, UpdateQuestionByIdUseCase, PublishQuestionByIdUseCase]
 const queries = [FindAllQuestionsUseCase]

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { QuestionEntity } from '../../features/sa/sa-quiz/domain/entity/question.entity';
+import { QuestionEntity } from '../../features/sa/sa-quiz/domain/entities/question.entity';
 import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class AllDataService {
 
   async deleteAllData(): Promise<void> {
     await this.db.query(`
-      delete from "bloggerUser";
+      delete from "blogger-users";
       delete from blogs;
       delete from comments;
       delete from devices;
