@@ -9,13 +9,15 @@ import { DeleteOneDeviceByIdUseCase } from './application/use-cases/DeleteOneDev
 import { DeleteAllDeviceByCurrentUserIdExceptCurrentDeviceUseCase } from './application/use-cases/DeleteAllDeviceByCurrentUserIdExceptCurrentDevice';
 import { CqrsModule } from '@nestjs/cqrs';
 import { DevicesSQL } from './infrastructure/devices.repositorySQL';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DeviceEntity } from './domain/entitites/devices.entity';
 
 const commands = [DeleteOneDeviceByIdUseCase, DeleteAllDeviceByCurrentUserIdExceptCurrentDeviceUseCase]
 const queries = [FindAllDevicesByCurrentUserIdUseCase]
 
 @Module({
   controllers: [DevicesController],
-  imports: [JwtModule, CqrsModule],
+  imports: [TypeOrmModule.forFeature([DeviceEntity]), JwtModule, CqrsModule],
   providers: [
     DevicesService,
     DevicesRepo,
@@ -25,7 +27,7 @@ const queries = [FindAllDevicesByCurrentUserIdUseCase]
     ...queries,
   ],
   exports: [
-    DevicesRepo,
+    DevicesRepo, TypeOrmModule,
   ]
 })
 export class DevicesModule {}

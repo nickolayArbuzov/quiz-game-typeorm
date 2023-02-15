@@ -1,7 +1,7 @@
 import { UserEntity } from '../../../sa-users/domain/entitites/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-export class GamesEntity {
+class GamesEntity {
 
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -29,7 +29,7 @@ export class GamesEntity {
 
 }
 
-@Entity('finished-games')
+@Entity('current-games')
 export class CurrentGamesEntity extends GamesEntity {
 
   @ManyToOne(() => UserEntity, user => user.currentGames)

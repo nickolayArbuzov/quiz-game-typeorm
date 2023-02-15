@@ -11,13 +11,15 @@ import { BloggerUserRepo } from './infrastructure/blogger-user.repo';
 import { SAUsersModule } from '../../sa/sa-users/sa-users.module';
 import { BloggerBlogModule } from '../blogger-blog/blogger-blog.module';
 import { BloggerUserSQL } from './infrastructure/blogger-user.repositorySQL';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { BloggerUserEntity } from './domain/entitites/blogger-user.entity';
 
 const commands = [BanUserByIdUseCase]
 const queries = [FindAllBannedUsersByBlogIdUseCase]
 
 @Module({
   controllers: [BloggerUserController],
-  imports: [forwardRef(() => PostsModule), LikesModule, CqrsModule, SAUsersModule, BloggerBlogModule],
+  imports: [TypeOrmModule.forFeature([BloggerUserEntity]), forwardRef(() => PostsModule), LikesModule, CqrsModule, SAUsersModule, BloggerBlogModule],
   providers: [
     BloggerUserRepo,
     BloggerUserSQL,
@@ -27,7 +29,7 @@ const queries = [FindAllBannedUsersByBlogIdUseCase]
     ...queries,
   ],
   exports: [
-    BloggerUserRepo,
+    BloggerUserRepo, TypeOrmModule,
   ]
 
 })

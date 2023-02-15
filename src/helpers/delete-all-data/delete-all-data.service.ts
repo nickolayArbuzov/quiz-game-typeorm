@@ -1,27 +1,52 @@
 import { Injectable } from '@nestjs/common';
-import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { QuestionEntity } from '../../features/sa/sa-quiz/domain/entities/question.entity';
-import { DataSource, Repository } from 'typeorm';
+import { CurrentGamesEntity, FinishedGamesEntity } from '../../features/sa/sa-quiz/domain/entities/games.entity';
+import { BloggerUserEntity } from '../../features/blogger/blogger-user/domain/entitites/blogger-user.entity';
+import { BlogEntity } from '../../features/blogs/entitites/blogs.entity';
+import { CommentEntity } from '../../features/comments/domain/entitites/comments.entity';
+import { DeviceEntity } from '../../features/devices/domain/entitites/devices.entity';
+import { LikeEntity } from '../../features/likes/domain/entitites/likes.entity';
+import { PostEntity } from '../../features/posts/domain/entitites/posts.entity';
+import { UserEntity } from '../../features/sa/sa-users/domain/entitites/user.entity';
 
 @Injectable()
 export class AllDataService {
   constructor(
-    @InjectDataSource() private readonly db: DataSource,
     @InjectRepository(QuestionEntity)
     private questionRepository: Repository<QuestionEntity>,
+    @InjectRepository(CurrentGamesEntity)
+    private currentGamesEntity: Repository<CurrentGamesEntity>,
+    @InjectRepository(FinishedGamesEntity)
+    private finishedGamesEntity: Repository<FinishedGamesEntity>,
+    @InjectRepository(BloggerUserEntity)
+    private bloggerUserEntity: Repository<BloggerUserEntity>,
+    @InjectRepository(BlogEntity)
+    private blogEntity: Repository<BlogEntity>,
+    @InjectRepository(CommentEntity)
+    private commentEntity: Repository<CommentEntity>,
+    @InjectRepository(DeviceEntity)
+    private deviceEntity: Repository<DeviceEntity>,
+    @InjectRepository(LikeEntity)
+    private likeEntity: Repository<LikeEntity>,
+    @InjectRepository(PostEntity)
+    private postEntity: Repository<PostEntity>,
+    @InjectRepository(UserEntity)
+    private userEntity: Repository<UserEntity>,
   ) {}
 
   async deleteAllData(): Promise<void> {
-    await this.db.query(`
-      delete from "blogger-users";
-      delete from blogs;
-      delete from comments;
-      delete from devices;
-      delete from likes;
-      delete from posts;
-      delete from users;
-    `);
     await this.questionRepository.delete({})
+    await this.currentGamesEntity.delete({})
+    await this.finishedGamesEntity.delete({})
+    await this.bloggerUserEntity.delete({})
+    await this.blogEntity.delete({})
+    await this.commentEntity.delete({})
+    await this.deviceEntity.delete({})
+    await this.likeEntity.delete({})
+    await this.postEntity.delete({})
+    await this.userEntity.delete({})
   }
   
 }

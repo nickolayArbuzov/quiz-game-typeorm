@@ -14,13 +14,15 @@ import { LikeUseCase } from './application/use-cases/Like';
 import { PostsRepo } from './infrastructure/posts.repo';
 import { BloggerUserModule } from '../blogger/blogger-user/blogger-user.module';
 import { PostsSQL } from './infrastructure/posts.repositorySQL';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PostEntity } from './domain/entitites/posts.entity';
 
 const commands = [LikeUseCase, CreateOneCommentByPostIdUseCase]
 const queries = [FindCommentsByPostIdCase, FindAllPostsUseCase, FindOnePostByIdUseCase]
 
 @Module({
   controllers: [PostsController],
-  imports: [CommentsModule, LikesModule, CqrsModule, forwardRef(() => BlogsModule), BloggerUserModule],
+  imports: [TypeOrmModule.forFeature([PostEntity]), CommentsModule, LikesModule, CqrsModule, forwardRef(() => BlogsModule), BloggerUserModule],
   providers: [
     PostsService,
     PostsRepo,
@@ -30,7 +32,7 @@ const queries = [FindCommentsByPostIdCase, FindAllPostsUseCase, FindOnePostByIdU
     ...queries,
   ],
   exports: [
-    PostsRepo,
+    PostsRepo, TypeOrmModule,
   ]
 })
 export class PostsModule {}

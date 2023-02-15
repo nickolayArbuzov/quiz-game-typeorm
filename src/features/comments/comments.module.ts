@@ -11,13 +11,15 @@ import { FindOneCommentByIdUseCase } from './application/use-cases/FindOneCommen
 import { CqrsModule } from '@nestjs/cqrs';
 import { SAUsersModule } from '../sa/sa-users/sa-users.module';
 import { CommentsSQL } from './infrastructure/comments.repositorySQL';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CommentEntity } from './domain/entitites/comments.entity';
 
 const commands = [LikeUseCase, UpdateOneCommentByIdUseCase, DeleteOneCommentByIdUseCase]
 const queries = [FindOneCommentByIdUseCase]
 
 @Module({
   controllers: [CommentsController],
-  imports: [LikesModule, CqrsModule, SAUsersModule],
+  imports: [TypeOrmModule.forFeature([CommentEntity]), LikesModule, CqrsModule, SAUsersModule],
   providers: [
     CommentsService,
     CommentsRepo,
@@ -27,7 +29,7 @@ const queries = [FindOneCommentByIdUseCase]
     ...queries,
   ],
   exports: [
-    CommentsRepo,
+    CommentsRepo, TypeOrmModule,
   ]
 })
 export class CommentsModule {}

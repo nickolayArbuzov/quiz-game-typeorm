@@ -10,13 +10,15 @@ import { UserCodeIsConfirmedRule, UserLoginIsExistRule, UserMailCheckRule, UserM
 import { UsersRepo } from './infrastructure/users.repo';
 import { LikesModule } from '../../likes/likes.module';
 import { UsersSQL } from './infrastructure/users.repositorySQL';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from './domain/entitites/user.entity';
 
 const commands = [CreateOneUserUseCase, DeleteOneUserByIdUseCase, BanOneUserByIdUseCase]
 const queries = [FindAllUsersUseCase]
 
 @Module({
   controllers: [UsersController],
-  imports: [CqrsModule, LikesModule],
+  imports: [TypeOrmModule.forFeature([UserEntity]), CqrsModule, LikesModule],
   providers: [
     UsersService,
     UsersRepo,
@@ -29,7 +31,7 @@ const queries = [FindAllUsersUseCase]
     ...queries,
   ],
   exports: [
-    UsersRepo,
+    UsersRepo, TypeOrmModule,
   ]
 })
 export class SAUsersModule {}

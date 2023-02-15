@@ -9,13 +9,14 @@ import { CreateOneQuestionUseCase } from './application/use-cases/CreateOneQuest
 import { DeleteQuestionByIdUseCase } from './application/use-cases/DeleteQuestionById';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { QuestionEntity } from './domain/entities/question.entity';
+import { CurrentGamesEntity, FinishedGamesEntity } from './domain/entities/games.entity';
 
 const commands = [CreateOneQuestionUseCase, DeleteQuestionByIdUseCase, UpdateQuestionByIdUseCase, PublishQuestionByIdUseCase]
 const queries = [FindAllQuestionsUseCase]
 
 @Module({
   controllers: [QuizQuestionsController],
-  imports: [TypeOrmModule.forFeature([QuestionEntity]), CqrsModule],
+  imports: [TypeOrmModule.forFeature([QuestionEntity, CurrentGamesEntity, FinishedGamesEntity]), CqrsModule],
   providers: [
     SAquizRepo,
     ...commands,

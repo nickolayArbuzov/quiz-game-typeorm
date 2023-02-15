@@ -25,6 +25,7 @@ const queries = [FindOneGameByIdUseCase, GetMyCurrentGameUseCase, GetMyGamesUseC
     ...queries,
   ],
   exports: [
+
   ]
 })
 export class PairGameQuizModule {}

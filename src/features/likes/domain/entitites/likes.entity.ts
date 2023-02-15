@@ -18,14 +18,14 @@ export class LikeEntity {
   @Column('text')
   login: string;
 
-  @Column('uuid')
+  @Column({type: 'uuid', nullable: true})
   postId: string;
 
-  @Column('uuid')
+  @Column({type: 'uuid', nullable: true})
   commentId: string;
 
   @Column('timestamp with time zone')
-  addadAt: string;
+  addedAt: string;
 
   @Column('text')
   status: string;
