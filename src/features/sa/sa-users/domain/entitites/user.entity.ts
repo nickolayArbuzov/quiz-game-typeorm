@@ -29,10 +29,10 @@ export class UserEntity {
   @Column('boolean')
   isBanned: boolean;
 
-  @Column('timestamp with time zone')
+  @Column({type: 'timestamp with time zone', nullable: true})
   banDate: string;
 
-  @Column('timestamp with time zone')
+  @Column({type: 'timestamp with time zone', nullable: true})
   banReason: string;
 
   @Column('text')

@@ -1,9 +1,5 @@
-import { BadRequestException, INestApplication, ValidationPipe } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
-import { useContainer } from 'class-validator';
+import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { HttpExceptionFilter } from '../src/helpers/filters/http-exeption.filter';
-import { AppModule } from '../src/app.module'
 import * as constants from './constants';
 import {createAppandServerForTests} from './app'
 
@@ -23,46 +19,44 @@ describe('AppController', () => {
 
   describe('sa-user-controller', () => {
 
-    const question1 = {
-      body: 'how are you?',
-      correctAnswers: ['thanks, fine', 'it norm, how are you?']
-    }
-
-    const question2 = {
-      body: '2-how are you?',
-      correctAnswers: ['2', 'thanks, fine', 'it norm, how are you?']
-    }
-
-    const updateQuestion = {
-      body: 'hi, how are you?',
-      correctAnswers: ['its ok', 'it norm, how are you?']
-    }
-
-    let questionId = ''
-    const incorrectAnyUUID = 'b252c185-7777-4444-7777-8b6f242a2ff8'
-
     it('should delete all data', async () => {
       await request(server).delete('/testing/all-data').expect(204)
     })
 
-    it('should create new question', async () => {
-      const response = await request(server).post('/sa/quiz/questions')
-        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
-        .send(question1)
-        .expect(201)
-      await request(server).post('/sa/quiz/questions').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(question2)
-      await request(server).post('/sa/quiz/questions').set('Authorization', 'Basic YWRtaW46cXdlcnR5').expect(400)
+    it('should create data', async () => {
 
-      questionId = response.body.id
+      // create and login users, get accessTokens
+      for await (const user of constants.createUsers){
+        await request(server).post('/sa/users')
+          .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+          .send(user)
+
+        let accessToken = await request(server).post('/auth/login')
+          .send({loginOrEmail: user.login, password: user.password})
+        constants.variables.setAccessTokens(accessToken.body.accessToken)
+      }
+      expect(constants.variables.accessTokens.length).toStrictEqual(constants.createUsers.length)
       
-      expect(response.body).toStrictEqual({
-        "id": expect.any(String),
-        "body": question1.body,
-        "correctAnswers": question1.correctAnswers,
-        "published": false,
-        "createdAt": expect.any(String),
-        "updatedAt": null,
-      });
+      // create questions
+      for await (const question of constants.quizQuestions){
+        let createquestion = await request(server).post('/sa/quiz/questions')
+          .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+          .send(question)
+        constants.variables.setQuestionsId(createquestion.body.id)
+      }
+      expect(constants.variables.questionsId.length).toStrictEqual(constants.quizQuestions.length)
+
+      // publish questions
+      for await (const id of constants.variables.questionsId){
+        await request(server).put(`/sa/quiz/questions/${id}/publish`)
+          .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+          .send({published: true})
+      }
+
+      const res = await request(server).get('/sa/quiz/questions')
+        .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
+
+      expect(res.body.items.filter(q => q.published === true).length).toStrictEqual(constants.quizQuestions.length)
 
     });
 

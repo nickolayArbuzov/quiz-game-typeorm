@@ -1,3 +1,53 @@
+const quizQuestions = [
+    {
+        body: 'how are you?',
+        correctAnswers: ['thanks, fine', 'it norm, how are you?']
+    },
+    {
+        body: '2-how are you?',
+        correctAnswers: ['2', 'thanks, fine', 'it norm, how are you?']
+    },
+    {
+        body: '3-how are you?',
+        correctAnswers: ['3', 'thanks, fine', 'it norm, how are you?']
+    },
+    {
+        body: '4-how are you?',
+        correctAnswers: ['4', 'thanks, fine', 'it norm, how are you?']
+    },
+    {
+        body: '5-how are you?',
+        correctAnswers: ['5', 'thanks, fine', 'it norm, how are you?']
+    },
+    {
+        body: '6-how are you?',
+        correctAnswers: ['6', 'thanks, fine', 'it norm, how are you?']
+    },
+]
+
+const createUsers = [
+    {
+        login: 'login-1',
+        password: "password-1",
+        email: "email-1@mail.com"
+    },
+    {
+        login: 'login-2',
+        password: "password-2",
+        email: "email-2@mail.com"
+    },
+    {
+        login: 'login-3',
+        password: "password-3",
+        email: "email-3@mail.com"
+    },
+    {
+        login: 'login-4',
+        password: "password-4",
+        email: "email-4@mail.com"
+    }
+]
+
 const createBlog1 = {
     name: "blog-1",
     description: "description-1",
@@ -70,6 +120,7 @@ const incorrectUpdatePost = {
     content: "content-4",
 }
 
+// TODO refactor in array
 const createUser1 = {
     login: 'login-1',
     password: "password-1",
@@ -186,7 +237,8 @@ let unban = {
 }
 
 class Variables {
-
+    questionsId = []
+    accessTokens = []
     blogId = ''
     blogId2 = ''
     postId = ''
@@ -196,6 +248,7 @@ class Variables {
     commentId3 = ''
     userId = ''
     userId2 = ''
+    // TODO refactor to array
     accessToken = ''
     accessToken2 = ''
     accessToken3 = ''
@@ -212,6 +265,13 @@ class Variables {
     incorrectAnyObjectId = '638b5478fde32b4487e99999'
     incorrectAnyUUID = 'b252c185-7777-4444-7777-8b6f242a2ff8'
     incorrectToken = '77777GciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzkyM2I5NTVlZTgwZDRkZGIyYzdlMjEiLCJkZXZpY2VJZCI6IjEwNzMxMjFjLTM1YWQtNGMyMi04ZTFhLWM2NTNmMzhkYmJmMyIsImlzc3VlZEF0IjoxNjcwNTI3ODkzMjg5LCJpYXQiOjE2NzA1Mjc4OTMsImV4cCI6MTY3MDUyODE5M30.53_vG0GlhTqXosc2sq2-TnzxEyItCLrDHw8ZJjWRSQc'
+
+    setQuestionsId(questionId: string){
+        this.questionsId = [...this.questionsId, questionId]
+    }
+    setAccessTokens(accessToken: string){
+        this.accessTokens = [...this.accessTokens, accessToken]
+    }
 
     setBlogId(blogId: string){
         this.blogId = blogId
@@ -272,6 +332,8 @@ class Variables {
 const variables = new Variables()
 
 export {
+    quizQuestions,
+    createUsers,
     createBlog1, createBlog2, createBlog3, createBlog4, 
     incorrectCreateBlog, 
     updateBlog, 

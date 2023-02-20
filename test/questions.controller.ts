@@ -18,23 +18,12 @@ describe('AppController', () => {
 
   describe('sa-user-controller', () => {
 
-    const question1 = {
-      body: 'how are you?',
-      correctAnswers: ['thanks, fine', 'it norm, how are you?']
-    }
-
-    const question2 = {
-      body: '2-how are you?',
-      correctAnswers: ['2', 'thanks, fine', 'it norm, how are you?']
-    }
-
     const updateQuestion = {
       body: 'hi, how are you?',
       correctAnswers: ['its ok', 'it norm, how are you?']
     }
 
     let questionId = ''
-    const incorrectAnyUUID = 'b252c185-7777-4444-7777-8b6f242a2ff8'
 
     it('should delete all data', async () => {
       await request(server).delete('/testing/all-data').expect(204)
@@ -43,17 +32,17 @@ describe('AppController', () => {
     it('should create new question', async () => {
       const response = await request(server).post('/sa/quiz/questions')
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
-        .send(question1)
+        .send(constants.quizQuestions[0])
         .expect(201)
-      await request(server).post('/sa/quiz/questions').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(question2)
+      await request(server).post('/sa/quiz/questions').set('Authorization', 'Basic YWRtaW46cXdlcnR5').send(constants.quizQuestions[1])
       await request(server).post('/sa/quiz/questions').set('Authorization', 'Basic YWRtaW46cXdlcnR5').expect(400)
 
       questionId = response.body.id
       
       expect(response.body).toStrictEqual({
         "id": expect.any(String),
-        "body": question1.body,
-        "correctAnswers": question1.correctAnswers,
+        "body": constants.quizQuestions[0].body,
+        "correctAnswers": constants.quizQuestions[0].correctAnswers,
         "published": false,
         "createdAt": expect.any(String),
         "updatedAt": null,
@@ -70,7 +59,7 @@ describe('AppController', () => {
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .expect(400);
 
-      await request(server).put(`/sa/quiz/questions/${incorrectAnyUUID}`)
+      await request(server).put(`/sa/quiz/questions/${constants.variables.incorrectAnyUUID}`)
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .send(updateQuestion)
         .expect(404);
@@ -97,7 +86,7 @@ describe('AppController', () => {
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .expect(400);
 
-      await request(server).put(`/sa/quiz/questions/${incorrectAnyUUID}/publish`)
+      await request(server).put(`/sa/quiz/questions/${constants.variables.incorrectAnyUUID}/publish`)
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .send({published: true})
         .expect(404);
@@ -109,7 +98,6 @@ describe('AppController', () => {
 
       const response = await request(server).get('/sa/quiz/questions')
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
-        .send(constants.createUser1)
 
       expect(response.body.items.find(i => i.id === questionId).body).toStrictEqual(updateQuestion.body);
     });
@@ -117,7 +105,6 @@ describe('AppController', () => {
     it('should return all questions using query-params', async () => {
       const response = await request(server).get('/sa/quiz/questions')
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
-        .send(constants.createUser1)
         .expect(200);
 
       expect(response.body).toStrictEqual({
@@ -212,7 +199,7 @@ describe('AppController', () => {
       await request(server).delete(`/sa/quiz/questions/${questionId}`)
         .expect(401);
 
-      await request(server).delete(`/sa/quiz/questions/${incorrectAnyUUID}`)
+      await request(server).delete(`/sa/quiz/questions/${constants.variables.incorrectAnyUUID}`)
         .set('Authorization', 'Basic YWRtaW46cXdlcnR5')
         .expect(404);
       
