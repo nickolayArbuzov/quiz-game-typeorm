@@ -6,8 +6,6 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateOneUserCommand } from '../application/use-cases/CreateOneUser';
 import { DeleteOneUserByIdCommand } from '../application/use-cases/DeleteOneUserById';
 import { FindAllUsersQuery } from '../application/use-cases/FindAllUsers';
-import { BanOneUserByIdCommand } from '../application/use-cases/BanOneUserById';
-import { BanUserDto } from '../../../../shared/dto/ban.dto';
 
 @Controller('sa/users')
 export class UsersController {
@@ -15,13 +13,6 @@ export class UsersController {
         private commandBus: CommandBus,
         private queryBus: QueryBus,
     ) {}
-
-    @HttpCode(204)
-    @UseGuards(BasicAuthGuard)
-    @Put(':id/ban')
-    async banOneUserById(@Param('id') id: string, @Body() banUserDto: BanUserDto){
-        return await this.commandBus.execute(new BanOneUserByIdCommand(id, banUserDto))
-    }
 
     @UseGuards(BasicAuthGuard)
     @Get()

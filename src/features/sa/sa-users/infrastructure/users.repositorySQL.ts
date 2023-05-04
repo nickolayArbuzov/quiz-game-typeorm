@@ -10,18 +10,6 @@ export class UsersSQL {
     @InjectDataSource() private readonly db: DataSource
   ) {}
 
-  async banOneUserById(id: string, banInfo: BanInfo){
-    const banUser = await this.db.query(
-      `
-        update users
-        set "isBanned" = $2, "banDate" = $3, "banReason" = $4
-        where id = $1
-      `,
-      [id, banInfo.isBanned, banInfo.banDate, banInfo.banReason]
-    )
-    return banUser[1]
-  }
-
   async findAllUsers(query: QueryUserDto){
     
     const banCondition = query.banStatus === 'all' ? [true, false] : query.banStatus === 'banned' ? [true] : [false]

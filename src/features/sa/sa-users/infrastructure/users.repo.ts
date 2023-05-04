@@ -9,10 +9,6 @@ export class UsersRepo {
     private usersRepo: UsersSQL
   ) {}
 
-  async banOneUserById(id: string, banInfo: BanInfo){
-    return await this.usersRepo.banOneUserById(id, banInfo)
-  }
-
   async findAllUsers(query: QueryUserDto){
     return await this.usersRepo.findAllUsers(query)
   }
